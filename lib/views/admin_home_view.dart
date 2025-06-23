@@ -62,6 +62,13 @@ class _AdminHomeViewState extends State<AdminHomeView> {
             },
           ),
           IconButton(
+            icon: const Icon(Icons.people, color: Colors.white),
+            tooltip: 'View All Drivers',
+            onPressed: () {
+              Navigator.pushNamed(context, '/admin/all_drivers'); // 👈 MATCHES main.dart
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
             tooltip: 'Logout',
             onPressed: _logout,
@@ -107,7 +114,6 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                           point: LatLng(e.lat, e.lon),
                           width: 36,
                           height: 36,
-                          // Keep elephant icon green as requested
                           child: const Icon(Icons.pets, color: Colors.green, size: 30),
                         ),
                       )
@@ -117,10 +123,7 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                 ),
               ),
             ),
-
             const SizedBox(height: 24),
-
-            // Elephant count info box with green background and white text
             Container(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               decoration: BoxDecoration(
