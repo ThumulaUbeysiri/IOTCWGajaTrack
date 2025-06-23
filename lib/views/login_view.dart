@@ -15,13 +15,14 @@ class _LoginViewState extends State<LoginView> {
 
   bool _loading = false;
   String? _errorMessage;
+  bool _obscurePassword = true;
 
   void _login() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() {
       _loading = true;
-      _errorMessage = null;  // clear previous errors
+      _errorMessage = null;
     });
 
     try {
@@ -38,7 +39,6 @@ class _LoginViewState extends State<LoginView> {
       });
     }
 
-    // Check if widget is still mounted before calling setState
     if (!mounted) return;
 
     setState(() {
@@ -48,33 +48,77 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    const backgroundColor = Color(0xFF1E1E2C);
+    const cardColor = Color(0xFF2A2A40);
+    const accentColor = Colors.deepPurpleAccent;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Center(
-          child: SingleChildScrollView(
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        backgroundColor: cardColor,
+        title: const Text('Login', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: cardColor,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.4),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (_errorMessage != null) ...[
+                  const Text(
+                    'Welcome Back',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Please log in to continue',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                  const SizedBox(height: 24),
+
+                  if (_errorMessage != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16),
                       child: Text(
                         _errorMessage!,
-                        style: const TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.redAccent),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
+
+                  // Email Field
                   TextFormField(
                     controller: _emailController,
-                    decoration: const InputDecoration(
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
                       labelText: 'Email',
-                      prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder(),
+                      labelStyle: const TextStyle(color: Colors.white70),
+                      prefixIcon: const Icon(Icons.email, color: Colors.white70),
+                      filled: true,
+                      fillColor: backgroundColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (val) {
@@ -84,14 +128,33 @@ class _LoginViewState extends State<LoginView> {
                     },
                   ),
                   const SizedBox(height: 16),
+
+                  // Password Field
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(
+                    obscureText: _obscurePassword,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
                       labelText: 'Password',
-                      prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(),
+                      labelStyle: const TextStyle(color: Colors.white70),
+                      prefixIcon: const Icon(Icons.lock, color: Colors.white70),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.white54,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                      filled: true,
+                      fillColor: backgroundColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    obscureText: true,
                     validator: (val) {
                       if (val == null || val.isEmpty) return 'Please enter your password';
                       if (val.length < 6) return 'Password must be at least 6 characters';
@@ -99,14 +162,26 @@ class _LoginViewState extends State<LoginView> {
                     },
                   ),
                   const SizedBox(height: 24),
+
                   _loading
-                      ? const CircularProgressIndicator()
+                      ? const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                  )
                       : SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
                       onPressed: _login,
-                      child: const Text('Login', style: TextStyle(fontSize: 18)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: accentColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
