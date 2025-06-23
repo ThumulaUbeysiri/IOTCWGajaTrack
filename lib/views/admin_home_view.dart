@@ -40,13 +40,18 @@ class _AdminHomeViewState extends State<AdminHomeView> {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color(0xFF1E1E2C);
-    const appBarColor = Color(0xFF2A2A40);
+    const backgroundColor = Colors.white;
+
+    final mapBoxColor = Colors.green.shade50;
+    final mapBorderColor = Colors.green.shade500;
+
+    final countBoxColor = Colors.green.shade500;
+    final countBoxShadowColor = Colors.green.shade600.withOpacity(0.6);
 
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: appBarColor,
+        backgroundColor: mapBorderColor,
         title: const Text('Admin View', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
@@ -71,12 +76,12 @@ class _AdminHomeViewState extends State<AdminHomeView> {
             Container(
               height: 500,
               decoration: BoxDecoration(
-                color: appBarColor,
+                color: mapBoxColor,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.white, width: 4),
+                border: Border.all(color: mapBorderColor, width: 4),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.brown.shade400.withOpacity(0.6),
+                    color: mapBorderColor.withOpacity(0.3),
                     blurRadius: 24,
                     spreadRadius: 1,
                     offset: const Offset(0, 8),
@@ -102,7 +107,8 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                           point: LatLng(e.lat, e.lon),
                           width: 36,
                           height: 36,
-                          child: const Icon(Icons.pets, color: Colors.black54, size: 30),
+                          // Keep elephant icon green as requested
+                          child: const Icon(Icons.pets, color: Colors.green, size: 30),
                         ),
                       )
                           .toList(),
@@ -114,17 +120,15 @@ class _AdminHomeViewState extends State<AdminHomeView> {
 
             const SizedBox(height: 24),
 
-            // Elephant count info box below the map
+            // Elephant count info box with green background and white text
             Container(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.black26, Colors.black],
-                ),
+                color: countBoxColor,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.brown.shade400.withOpacity(0.7),
+                    color: countBoxShadowColor,
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),

@@ -51,18 +51,22 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color(0xFF1E1E2C);
-    const cardColor = Color(0xFF2A2A40);
-    const accentStart = Color(0xFF7C4DFF);
-    const accentEnd = Color(0xFF651FFF);
+    const backgroundColor = Colors.white;
+    final cardColor = Colors.green.shade50;
+    final accentStart = Colors.green.shade600;
+    final accentEnd = Colors.green.shade800;
+    final labelColor = Colors.green.shade900;
+    final textColor = Colors.green.shade900;
+    final errorColor = Colors.red.shade700;
+    final successColor = Colors.green.shade700;
 
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: cardColor,
-        title: const Text(
+        backgroundColor: accentStart,
+        title: Text(
           'Create Driver Account',
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         centerTitle: true,
         elevation: 0,
@@ -77,7 +81,7 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.green.shade200.withOpacity(0.5),
                   blurRadius: 14,
                   offset: const Offset(0, 6),
                 ),
@@ -93,8 +97,8 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: Text(
                         _errorMessage!,
-                        style: const TextStyle(
-                          color: Colors.redAccent,
+                        style: TextStyle(
+                          color: errorColor,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
@@ -105,8 +109,8 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: Text(
                         _successMessage!,
-                        style: const TextStyle(
-                          color: Colors.lightGreenAccent,
+                        style: TextStyle(
+                          color: successColor,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
@@ -114,13 +118,13 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
                     ),
                   TextFormField(
                     controller: _emailController,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: textColor),
                     decoration: InputDecoration(
                       labelText: 'Driver Email',
-                      labelStyle: const TextStyle(color: Colors.white70),
-                      prefixIcon: const Icon(Icons.email, color: Colors.white70),
+                      labelStyle: TextStyle(color: labelColor.withOpacity(0.7)),
+                      prefixIcon: Icon(Icons.email, color: labelColor.withOpacity(0.7)),
                       filled: true,
-                      fillColor: backgroundColor,
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
@@ -139,16 +143,16 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: _passwordController,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: textColor),
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      labelStyle: const TextStyle(color: Colors.white70),
-                      prefixIcon: const Icon(Icons.lock, color: Colors.white70),
+                      labelStyle: TextStyle(color: labelColor.withOpacity(0.7)),
+                      prefixIcon: Icon(Icons.lock, color: labelColor.withOpacity(0.7)),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                          color: Colors.white54,
+                          color: labelColor.withOpacity(0.7),
                         ),
                         onPressed: () {
                           setState(() {
@@ -157,7 +161,7 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
                         },
                       ),
                       filled: true,
-                      fillColor: backgroundColor,
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
@@ -174,7 +178,7 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
                   ),
                   const SizedBox(height: 30),
                   _loading
-                      ? const CircularProgressIndicator(
+                      ? CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(accentEnd),
                   )
                       : SizedBox(
@@ -187,13 +191,12 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        // Gradient background via Material + Ink
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
                       ),
                       child: Ink(
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [accentStart, accentEnd],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -207,7 +210,6 @@ class _AdminCreateDriverViewState extends State<AdminCreateDriverView> {
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,
-                              //fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

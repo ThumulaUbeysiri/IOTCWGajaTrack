@@ -48,14 +48,18 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color(0xFF1E1E2C);
-    const cardColor = Color(0xFF2A2A40);
-    const accentColor = Colors.deepPurpleAccent;
+    const backgroundColor = Colors.white;
+    final cardColor = Colors.green.shade50;
+    final accentStart = Colors.green.shade600;
+    final accentEnd = Colors.green.shade800;
+    final labelColor = Colors.green.shade900;
+    final textColor = Colors.green.shade900;
+    final errorColor = Colors.red.shade700;
 
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: cardColor,
+        backgroundColor: accentStart,
         title: const Text('Login', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         elevation: 0,
@@ -70,7 +74,7 @@ class _LoginViewState extends State<LoginView> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.4),
+                  color: Colors.green.shade200.withOpacity(0.5),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -81,18 +85,42 @@ class _LoginViewState extends State<LoginView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                  // GajaTrack logo + text branding row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.pets, // elephant-ish icon
+                        color: accentEnd,
+                        size: 36,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'GajaTrack',
+                        style: TextStyle(
+                          color: accentEnd,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  Text(
                     'Welcome Back',
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: textColor,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
                     'Please log in to continue',
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: labelColor.withOpacity(0.7)),
                   ),
                   const SizedBox(height: 24),
 
@@ -101,7 +129,7 @@ class _LoginViewState extends State<LoginView> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: Text(
                         _errorMessage!,
-                        style: const TextStyle(color: Colors.redAccent),
+                        style: TextStyle(color: errorColor),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -109,15 +137,19 @@ class _LoginViewState extends State<LoginView> {
                   // Email Field
                   TextFormField(
                     controller: _emailController,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: textColor),
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      labelStyle: const TextStyle(color: Colors.white70),
-                      prefixIcon: const Icon(Icons.email, color: Colors.white70),
+                      labelStyle: TextStyle(color: labelColor.withOpacity(0.7)),
+                      prefixIcon: Icon(Icons.email, color: labelColor.withOpacity(0.7)),
                       filled: true,
-                      fillColor: backgroundColor,
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: accentEnd, width: 2),
                       ),
                     ),
                     keyboardType: TextInputType.emailAddress,
@@ -133,15 +165,15 @@ class _LoginViewState extends State<LoginView> {
                   TextFormField(
                     controller: _passwordController,
                     obscureText: _obscurePassword,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: textColor),
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      labelStyle: const TextStyle(color: Colors.white70),
-                      prefixIcon: const Icon(Icons.lock, color: Colors.white70),
+                      labelStyle: TextStyle(color: labelColor.withOpacity(0.7)),
+                      prefixIcon: Icon(Icons.lock, color: labelColor.withOpacity(0.7)),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                          color: Colors.white54,
+                          color: labelColor.withOpacity(0.7),
                         ),
                         onPressed: () {
                           setState(() {
@@ -150,9 +182,13 @@ class _LoginViewState extends State<LoginView> {
                         },
                       ),
                       filled: true,
-                      fillColor: backgroundColor,
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: accentEnd, width: 2),
                       ),
                     ),
                     validator: (val) {
@@ -164,8 +200,8 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(height: 24),
 
                   _loading
-                      ? const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                      ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(accentEnd),
                   )
                       : SizedBox(
                     width: double.infinity,
@@ -173,14 +209,32 @@ class _LoginViewState extends State<LoginView> {
                     child: ElevatedButton(
                       onPressed: _login,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: accentColor,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
                       ),
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [accentStart, accentEnd],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

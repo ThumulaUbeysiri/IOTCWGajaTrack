@@ -91,7 +91,6 @@ class _DriverHomeViewState extends State<DriverHomeView> {
     setState(() => elephants = temp);
   }
 
-  // Find closest elephant distance in meters or double.infinity if none
   double _closestElephantDistance() {
     if (elephants.isEmpty) return double.infinity;
 
@@ -101,7 +100,6 @@ class _DriverHomeViewState extends State<DriverHomeView> {
     return dist;
   }
 
-  // Get warning level string and colors based on closest elephant distance
   Map<String, dynamic> _getWarningStatus() {
     final dist = _closestElephantDistance();
 
@@ -128,8 +126,10 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color(0xFF1E1E2C);
-    const appBarColor = Color(0xFF2A2A40);
+    const backgroundColor = Colors.white;
+    final appBarColor = Colors.green.shade600;
+    final mapBoxColor = Colors.green.shade50;
+    final mapBorderColor = Colors.green.shade300;
 
     final warning = _getWarningStatus();
 
@@ -158,12 +158,12 @@ class _DriverHomeViewState extends State<DriverHomeView> {
             Container(
               height: 500,
               decoration: BoxDecoration(
-                color: appBarColor,
+                color: mapBoxColor,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.white, width: 4),
+                border: Border.all(color: mapBorderColor, width: 4),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.yellow.shade700.withOpacity(0.4),
+                    color: mapBorderColor.withOpacity(0.3),
                     blurRadius: 20,
                     spreadRadius: 1,
                     offset: const Offset(0, 6),
@@ -251,7 +251,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
             // Warning/Caution message box with radiant background and icon
             Container(
               padding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 12), // smaller vertical padding
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
                 gradient: LinearGradient(
@@ -261,7 +261,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: warning['colors'][1].withOpacity(0.4), // softer shadow
+                    color: warning['colors'][1].withOpacity(0.4),
                     blurRadius: 15,
                     spreadRadius: 1,
                     offset: const Offset(0, 6),
@@ -278,7 +278,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
                       warning['text'],
                       style: const TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.normal, // removed bold
+                        fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
                       textAlign: TextAlign.center,
